@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thunisoft.shop.mapper.ProductMapper">
+
+	<sql id="field">name,sn,costPrice,salePrice,marketPrice,place,model,num,
+	bigPic,smallPic,status,intro,viewTimes,recommended,inputTime,dir_id
+	</sql>
+
+	<insert id="save" parameterType="product" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into t_product(
+		<include refid="field" />
+		)
+		values(#{name},#{sn},#{costPrice},#{salePrice},#{marketPrice},#{place},#{model},#{num},
+		#{bigPic},#{smallPic},#{status},#{intro},#{viewTimes},#{recommended},#{inputTime},#{productDir.id})
+	</insert>
+
+	<update id="update" parameterType="product">
+		update t_product
+		set
+		name=#{name},sn=#{sn},costPrice=#{costPrice},salePrice=#{salePrice},marketPrice=#{marketPrice},
+		place=#{place},model=#{model},num=#{num},intro=#{intro},recommended=#{recommended},inputTime=#{inputTime},dir_id=#{productDir.id}
+		where id=#{id}
+	</update>
+
+
+
+
+	<select id="getById" resultMap="productResult" parameterType="long">
+		select
+		p.id,p.name,p.sn,p.costPrice,p.salePrice,
+		p.place,p.model,p.num,p.viewTimes,p.recommended,
+		p.inputTime,d.name dirName
+		from t_product p
+		left join t_productdir d on p.dir_id=d.id
+		where p.id=#{id}
+	</select>
+	
+	<select id="getBySn" resultMap="productResult" parameterType="string">
+		select
+		p.id,p.name,p.sn,p.costPrice,p.salePrice,
+		p.place,p.model,p.num,p.viewTimes,p.recommended,
+		p.inputTime
+		from t_product p
+		where p.sn=#{sn}
+	</select>
+	
+	<select id="getByQuery" resultMap="productResult" parameterType="productQuery">
+		select
+		p.id,p.name,p.sn,p.costPrice,p.salePrice,
+		p.place,p.model,p.num,p.viewTimes,
+		p.bigPic,p.smallPic,p.recommended,
+		p.inputTime,p.marketPrice,p.model,
+		d.id dirId,d.name dirName
+		from t_product p
+		left join t_productdir d on p.dir_id=d.id
+		<where>
+			<if test="seachKey != null and seachKey != ''">
+				(p.name like concat('%',#{seachKey},'%') or p.sn like concat('%',#{seachKey},'%'))
+			</if>
+			<if test="productDirId != null and productDirId != '-1'">
+				AND p.dir_id = #{productDirId}
+			</if>
+			<if test="salePriceStart != null">
+				<![CDATA[ AND p.salePrice >= #{salePriceStart}  ]]>
+			</if>
+			<if test="salePriceEnd != null">
+				<![CDATA[ AND p.salePrice <= #{salePriceEnd}  ]]>
+			</if>
+			<if test="recommended != null and recommended != '-1'">
+				 AND p.recommended = #{recommended}
+			</if>
+		</where>
+	</select>
+
+<!-- property:javaBean对象内的属性，column查询出的视图列名，javaType：类的完全限定名 -->
+	<resultMap id="productResult" type="product">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="sn" column="sn" />
+		<result property="costPrice" column="costPrice" />
+		<result property="salePrice" column="salePrice" />
+		<result property="place" column="place" />
+		<result property="viewTimes" column="viewTimes" />
+		<result property="bigPic" column="bigPic" />
+		<result property="smallPic" column="smallPic" />
+		<result property="recommended" column="recommended" />
+		<result property="num" column="num" />
+		<result property="inputTime" column="inputTime" />
+		<result property="marketPrice" column="marketPrice" />
+		<result property="model" column="model" />
+		<association property="productDir" column="dirId"
+			javaType="ProductDir" resultMap="productDirResult" />
+	</resultMap>
+
+	<resultMap id="productDirResult" type="productDir">
+		<result property="id" column="dirId" />
+		<result property="name" column="dirName" />
+	</resultMap>
+
+
+    <select id="findNewProducts" resultType="product" >
+        select
+		name,salePrice,marketPrice,smallPic
+        from t_product
+        order by inputTime desc
+    </select>
+	<select id="getRecommendedNewProducts" parameterType="hashmap" resultType="product" >
+        select
+		name,salePrice,marketPrice,smallPic,place,model
+        from t_product
+        where recommended = 1 and (inputTime between #{startDate} and #{endDate})
+        order by inputTime desc
+    </select>
+</mapper>

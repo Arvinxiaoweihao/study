@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="front" namespace="/" extends="struts-default">
+
+		<!-- 返回json时引入 ，或者package 继承json-default-->
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<interceptors>
+			<interceptor name="json"
+				class="org.apache.struts2.json.JSONInterceptor" />
+		</interceptors>
+
+		<action name="navigate_*" class="com.thunisoft.shop.action.FrontPageAction"
+			method="{1}">
+			<result name="success" type="dispatcher">/WEB-INF/views/front/index.jsp
+			</result>
+		</action>
+
+		<action name="market_*" class="com.thunisoft.shop.action.SuperMarketAction"
+			method="{1}">
+			<result name="success" type="dispatcher">/WEB-INF/views/front/superMarket.jsp
+			</result>
+			<result name="ajaxRequest" type="json">
+				<!-- 指定返回多个参数时 -->
+				<param name="includeProperties">result</param>
+			</result>
+		</action>
+		
+		<action name="shoppingCart_*" class="com.thunisoft.shop.action.ShoppingCartAction"
+			method="{1}">
+			<result name="success" type="dispatcher">/WEB-INF/views/front/shoppingCart.jsp
+			</result>
+			<result name="ajaxRequest" type="json">
+				<!-- 指定返回多个参数时 -->
+				<param name="includeProperties">result</param>
+			</result>
+		</action>
+
+	</package>
+
+
+
+
+
+</struts>

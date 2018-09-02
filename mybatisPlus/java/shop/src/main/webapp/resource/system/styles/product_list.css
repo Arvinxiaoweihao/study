@@ -1,0 +1,11 @@
+/* 标签选择器 */
+img{
+	cursor:pointer;
+}
+
+/* 类选择器 */
+.toHand{
+    cursor:pointer;
+    float:left;
+    padding-right: 10px;
+}

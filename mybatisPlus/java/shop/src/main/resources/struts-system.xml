@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="struts-system" namespace="/system" extends="struts-default">
+
+		<global-results>
+			<result name="login" type="redirectAction">logout</result>
+		</global-results>
+
+		<action name="logout_*" class="com.thunisoft.shop.action.LogoutAction" method="{1}">
+			<result name="success" type="dispatcher">/WEB-INF/views/system/login.jsp
+			</result>
+			<result name="index" type="redirectAction">navigate</result>
+		</action>
+
+		<action name="navigate_*" class="com.thunisoft.shop.action.NavigateAction"
+			method="{1}">
+			<result name="success" type="dispatcher">/WEB-INF/views/system/index.jsp
+			</result>
+			<result name="top" type="dispatcher">/WEB-INF/views/system/top.jsp</result>
+			<result name="menu" type="dispatcher">/WEB-INF/views/system/menu.jsp
+			</result>
+			<result name="main" type="dispatcher">/WEB-INF/views/system/main.jsp
+			</result>
+		</action>
+		
+		<action name="user_*" class="com.thunisoft.shop.action.UserAction"
+			method="{1}">
+			<result name="success" type="redirectAction">user_list</result>
+			<result name="list" type="dispatcher">/WEB-INF/views/system/user/list.jsp
+			</result>
+			<result name="input" type="dispatcher">/WEB-INF/views/system/user/edit.jsp
+			</result>
+		</action>
+		
+		<action name="product_*" class="com.thunisoft.shop.action.ProductAction"
+			method="{1}">
+			<result name="success" type="redirectAction">product_list</result>
+			<result name="list" type="dispatcher">/WEB-INF/views/system/product/list.jsp
+			</result>
+			<result name="input" type="dispatcher">/WEB-INF/views/system/product/edit.jsp
+			</result>
+		</action>
+	</package>
+
+
+
+
+
+</struts>

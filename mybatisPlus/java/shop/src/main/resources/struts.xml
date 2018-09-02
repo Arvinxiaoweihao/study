@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 开发这模式 -->
+	<constant name="struts.devMode" value="true" />
+	<!-- 将表单的样式清除 -->
+	<constant name="struts.ui.theme" value="simple" />
+	<!-- 动态调用 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<!-- 访问路径后缀 -->
+	<constant name="struts.action.extension" value="action" />
+
+	<!-- 前端 -->
+	<include file="struts-front.xml"/>
+	<!-- 后端 -->
+	<include file="struts-system.xml"/>
+
+</struts>
