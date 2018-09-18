@@ -1,0 +1,11 @@
+# 字符串添加了单引号，特殊字符会被转义,字符串添加了双引号，代表特殊字符不会转义
+# 开发环境
+user:
+  userName: 开发环境用户
+  age: 20
+  info: "name:${user.userName},age:${user.age}"
+
+id: ${random.uuid}
+num: ${random.int(10)}
+name: zhang
+fullName: ${name}san

@@ -1,0 +1,20 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /springboot
+
+projectname: springboot
+# dev 为使用开发环境配置application-dev.yml
+# prod 为使用生产环境配置application-prod.yml
+spring:
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/db_springboot
+    username: root
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
