@@ -1,6 +1,6 @@
 package com.thunisoft.springboot.service;
 
-import com.thunisoft.springboot.pojo.User;
+import com.thunisoft.springboot.domain.User;
 
 import java.util.List;
 
@@ -16,4 +16,37 @@ public interface IUserService {
      * @return
      */
     List<User> listUser();
+
+    /**
+     * 保存用户
+     * @param user 用户
+     */
+    User saveUser(User user);
+
+    /**
+     * 查询用户
+     * @param id ID
+     * @return
+     */
+    User getUser(Integer id);
+
+    /**
+     * 查询用户
+     * @param name 名字
+     * @return
+     */
+    List<User> getUser(String name);
+
+    /**
+     * 修改用户
+     * @param user 用户
+     * @return
+     */
+    User updateUser(User user);
+
+    /**
+     * 删除用户
+     * @param id
+     */
+    void deleteUser(Integer id);
 }

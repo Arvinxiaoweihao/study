@@ -5,7 +5,7 @@
 3. mvn install 编译打成jar包后 java -jar xx.jar启动
 4. 放在中间件下启动
 
-pom.xml
+**pom.xml**
 ```xml
 <parent>
 	<groupId>org.springframework.boot</groupId>
@@ -22,7 +22,7 @@ pom.xml
 	</dependency>
 <dependencies>
 ```
-启动类加@SpringBootApplication注释，main方法调用run方法
+**启动类加@SpringBootApplication注释，main方法调用run方法**
 ```java
 @SpringBootApplication
 public class SpringbootApplication {
@@ -65,7 +65,6 @@ num: ${random.int(10)}
 name: zhang
 fullName: ${name}san
 ```
-
 
 **实例**
 application.yml
@@ -162,29 +161,30 @@ user:
 | @GetMapping| 组合注解，还有@PostMapping、@PutMapping等|
 
 **实列**
+@Controller和@ResponseBody的一起使用
 ```java
 @Controller
 @ResponseBody
 public class DeptController {
-
     @RequestMapping(value="/getDept",method = RequestMethod.GET)
     public String getDept(){
         return "dept";
     }
 }
 ```
+@RestController的使用
 ```java
 @RestController
 @RequestMapping("/dept")//添加类的访问路径
 public class DeptController {
-
     //多个路径"/getDept"和"/dept"都可以访问该方法
-    @RequestMapping(value={"/getDept","/queryDept"},method = RequestMethod.GET)
-    public String getDept(){
-        return "dept";
-    }
+	@RequestMapping(value={"/getDept","/queryDept"},method = RequestMethod.GET)
+	public String getDept(){
+	return "dept";
+	}
 }
 ```
+@Pathvariable的使用
 ```java
 //访问http://localhost:8080/springboot/dept/getDept/26 获取参数
 @RequestMapping(value="/getDept/{id}",method = RequestMethod.GET)
@@ -192,14 +192,7 @@ public class DeptController {
 	return "id= "+deptId;
 }
 ```
-**@PathVariable设置默认值**
-```java
-//访问http://localhost:8080/springboot/dept/getDept/26 获取参数
-@RequestMapping(value="/getDept/{id}",method = RequestMethod.GET)
-public String getDept(@PathVariable("id") Integer deptId){
-return "id= "+deptId;
-}
-```
+@RequestParam的使用
 ```java
 //访问http://localhost:8080/springboot/dept/getDept?id=25 获取参数
 @RequestMapping(value="/getDept",method = RequestMethod.GET)
@@ -215,7 +208,7 @@ return "id= "+deptId;
 	return "id= "+deptId;
 }
 ```
-**等效于**
+**等效于@GetMapping的使用**
 ```java
 //访问http://localhost:8080/springboot/dept/getDept?id=25 获取参数
 @GetMapping(value="/getDept")
@@ -240,19 +233,62 @@ spring:
     show-sql: true
 ```
 
+## JpaRepository的使用
+不需要IUserDao实现类UserDaoImpl，直接调用findAll()、getOne(id)等方法
+```java
+public interface IUserDao extends JpaRepository<User,Integer> {
+    /** 自定义方法，按照getXxByMm格式. */
+    List<User> getUserByName(String name);
+}
+```
 
 
+**RESTfull GET 获取**
+```java
+@GetMapping(value="/listUser")
+public List<User> listUser() {
+	return userDao.findAll();
+}
 
+@GetMapping(value="/getUser")
+public User getUser(@RequestParam("id") Integer id){
+	return userDao.getOne(id);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+@GetMapping(value="/getUserByName")
+public List<User> getUser(@RequestParam("name") String name){
+	//自定义的方法
+	return userDao.getUserByName(name);
+}
+```
+**RESTfull POST 创建**
+```java
+@PostMapping(value="/saveUser")
+public User saveUser(@RequestParam("name") String name,@RequestParam("sex") Integer sex){
+	User user = new User();
+	user.setName(name);
+	user.setSex(sex);
+	return userDao.save(user);
+}
+```
+**RESTfull PUT 更新**
+可创建可更新
+```java
+@PutMapping(value="/updateUser")
+public User updateUser(@RequestParam("id") Integer id,@RequestParam("name") String name,@RequestParam("sex") Integer sex){
+	User user = new User();
+	user.setId(id);
+	user.setName(name);
+	user.setSex(sex);
+	return userDao.save(user);
+}
+```
+**RESTfull DELETE 更新**
+```java
+@DeleteMapping("/deleteUser")
+public void deleteUser(@RequestParam("id") Integer id){
+	userDao.deleteById(id);
+}
+```
+## 事务管理
+@Transactional

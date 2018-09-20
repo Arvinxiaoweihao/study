@@ -1,10 +1,5 @@
 package com.thunisoft.springboot.dao.impl;
 
-import com.thunisoft.springboot.dao.IUserDao;
-import com.thunisoft.springboot.pojo.User;
-
-import java.util.List;
-
 /**
  * @Description:
  * @Author: Administrator

@@ -1,4 +1,6 @@
-package com.thunisoft.springboot.pojo;
+package com.thunisoft.springboot.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,8 @@ import java.util.Date;
  * @CreateDate: 2018/9/17 22:30
  */
 @Entity(name="t_user")
-public class User {
+@JsonIgnoreProperties({ "handler","hibernateLazyInitializer" })
+public class User{
 
     @Id
     @GeneratedValue
@@ -91,5 +94,15 @@ public class User {
      */
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sex=" + sex +
+                ", birthday=" + birthday +
+                '}';
     }
 }

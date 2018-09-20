@@ -1,4 +1,4 @@
-package com.thunisoft.springboot.pojo;
+package com.thunisoft.springboot.domain.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
