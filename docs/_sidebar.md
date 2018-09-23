@@ -1,4 +1,5 @@
 * [MybatisPlus学习笔记总结](md/mybatisPlus)
-* [SpringBoot学习笔记总结](md/springBoot)
+* [SpringBoot入门](md/springBoot)
+* [SpringBoot进阶](md/springBoot2)
 * [Vue学习笔记总结](md/vue)
 

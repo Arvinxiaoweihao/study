@@ -14,6 +14,7 @@ import javax.validation.constraints.Min;
  * @CreateDate: 2018/9/19 22:16
  */
 @Entity(name="t_dept")
+@JsonIgnoreProperties({ "handler","hibernateLazyInitializer" })
 public class Dept {
 
     @Id
@@ -21,7 +22,7 @@ public class Dept {
     private Integer id;
 
     private String deptName;
-    @Min(value=50,message = "人数不能少于50人")
+    @Min(value=5,message = "人数不能少于5人")
     private Integer num;
 
 
@@ -78,5 +79,14 @@ public class Dept {
      */
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    @Override
+    public String toString() {
+        return "Dept{" +
+                "id=" + id +
+                ", deptName='" + deptName + '\'' +
+                ", num=" + num +
+                '}';
     }
 }

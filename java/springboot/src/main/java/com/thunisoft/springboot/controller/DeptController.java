@@ -1,7 +1,9 @@
 package com.thunisoft.springboot.controller;
 
+import com.thunisoft.springboot.constant.enums.DeptResultEnum;
 import com.thunisoft.springboot.domain.Dept;
 import com.thunisoft.springboot.service.IDeptService;
+import com.thunisoft.springboot.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -26,9 +28,20 @@ public class DeptController {
      * 查询部门
      * @return
      */
-    @GetMapping
+    @GetMapping(value="/listDept")
     public List<Dept> listDept(){
-        return
+        return deptService.listDept();
+    }
+
+    /**
+     * 查询部门
+     * @param id id
+     * @return
+     */
+    @GetMapping(value="getDept")
+    public Object getDept(@RequestParam("id") Integer id) throws Exception {
+        Object dept = deptService.getDept(id);
+        return ResultUtil.successResult(dept);
     }
 
     /**
@@ -38,12 +51,11 @@ public class DeptController {
      * @return
      */
     @PostMapping(value="/saveDept")
-    public Dept saveDept(@Valid Dept dept, BindingResult bindingResult){
+    public Object saveDept(@Valid Dept dept, BindingResult bindingResult){
         //bindingResult为验证结果
         if(bindingResult.hasErrors()){
-            System.out.println(bindingResult.getFieldError().getDefaultMessage());
-            return null;
+            return ResultUtil.failedResult(DeptResultEnum.FAILED.getCode(),bindingResult.getFieldError().getDefaultMessage());
         }
-        return deptService.saveDept(dept);
+        return ResultUtil.successResult(deptService.saveDept(dept));
     }
 }
