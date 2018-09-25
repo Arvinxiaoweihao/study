@@ -232,6 +232,29 @@ spring:
       ddl-auto: update
     show-sql: true
 ```
+## pojo实体类
+| 注解  | 说明  |
+| :------------ | :------------ |
+| @Entity  | 标示实体类  |
+| @Id  | 标示注解id  |
+| @GeneratedValue | 主键生成策略 |
+
+```java
+@Entity
+@Table(name="t_user")
+public class User{
+
+    @Id
+    @GeneratedValue
+    private Integer id;
+	...
+}
+```
+**@GeneratedValue的四种参数**
+1. @GeneratedValue(strategy= GenerationType.AUTO) JPA 自动选择一个最适合底层数据库的主键生成策略, 是默认选项 ,不设置就是这个
+2. @GeneratedValue(strategy= GenerationType.IDENTITY) 主键由数据库生成, 采用数据库自增长, Oracle不支持这种方式
+3. @GeneratedValue(strategy= GenerationType.SEQUENCE) 通过数据库的序列产生主键, MYSQL  不支持
+4. @GeneratedValue(strategy= GenerationType.Table) 通过表产生主键，框架借由表模拟序列产生主键，使用该策略可以使应用更易于数据库移植
 
 ## JpaRepository的使用
 不需要IUserDao实现类UserDaoImpl，直接调用findAll()、getOne(id)等方法
